@@ -1,0 +1,40 @@
+0 verbose cli [
+0 verbose cli   '/usr/local/Cellar/node@16/16.14.2/bin/node',
+0 verbose cli   '/usr/local/opt/node@16/bin/npm',
+0 verbose cli   'run',
+0 verbose cli   'build'
+0 verbose cli ]
+1 info using npm@8.5.0
+2 info using node@v16.14.2
+3 timing npm:load:whichnode Completed in 0ms
+4 timing config:load:defaults Completed in 1ms
+5 timing config:load:file:/usr/local/Cellar/node@16/16.14.2/lib/node_modules/npm/npmrc Completed in 2ms
+6 timing config:load:builtin Completed in 3ms
+7 timing config:load:cli Completed in 1ms
+8 verbose config tmp This setting is no longer used.  npm stores temporary files in a special
+8 verbose config location in the cache, and they are managed by
+8 verbose config     [`cacache`](http://npm.im/cacache).
+9 timing config:load:env Completed in 0ms
+10 timing config:load:file:/Users/dinhphu/tmp/thtruemilk/react-src/calendar/.npmrc Completed in 0ms
+11 timing config:load:project Completed in 3ms
+12 timing config:load:file:/Users/dinhphu/.npmrc Completed in 0ms
+13 timing config:load:user Completed in 0ms
+14 timing config:load:file:/Users/dinhphu/tmp/thtruemilk/react-src/calendar/npm/etc/npmrc Completed in 0ms
+15 timing config:load:global Completed in 0ms
+16 timing config:load:validate Completed in 1ms
+17 timing config:load:credentials Completed in 2ms
+18 timing config:load:setEnvs Completed in 1ms
+19 timing config:load Completed in 13ms
+20 timing npm:load:configload Completed in 13ms
+21 timing npm:load:setTitle Completed in 2ms
+22 timing config:load:flatten Completed in 2ms
+23 timing npm:load:display Completed in 3ms
+24 verbose logfile /Users/dinhphu/tmp/thtruemilk/react-src/calendar/npm/cache/_logs/2022-06-18T07_03_25_990Z-debug-0.log
+25 timing npm:load:logFile Completed in 5ms
+26 timing npm:load:timers Completed in 0ms
+27 timing npm:load:configScope Completed in 0ms
+28 timing npm:load Completed in 24ms
+29 timing command:run Completed in 12736ms
+30 verbose exit 0
+31 timing npm Completed in 12978ms
+32 info ok

@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "https://3cxcrm.thmilk.vn/svcalendar/static/css/main.ddd32447.css",
+    "main.js": "https://3cxcrm.thmilk.vn/svcalendar/static/js/main.487f0022.js",
+    "static/js/787.f4b9e84d.chunk.js": "https://3cxcrm.thmilk.vn/svcalendar/static/js/787.f4b9e84d.chunk.js",
+    "index.html": "https://3cxcrm.thmilk.vn/svcalendar/index.html",
+    "main.ddd32447.css.map": "https://3cxcrm.thmilk.vn/svcalendar/static/css/main.ddd32447.css.map",
+    "main.487f0022.js.map": "https://3cxcrm.thmilk.vn/svcalendar/static/js/main.487f0022.js.map",
+    "787.f4b9e84d.chunk.js.map": "https://3cxcrm.thmilk.vn/svcalendar/static/js/787.f4b9e84d.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.ddd32447.css",
+    "static/js/main.487f0022.js"
+  ]
+}
