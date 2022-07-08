@@ -9,7 +9,7 @@ import resourceTimeGridPlugin from "@fullcalendar/resource-timegrid";
 import { useLocation } from "react-router-dom";
 import { useEffect } from "react";
 import SpTicketsApi from '../apis/SpTicketsApi';
-import { Button, Modal, ModalBody, ModalFooter, ModalHeader } from 'reactstrap';
+import { Button, Input, Modal, ModalBody, ModalFooter, ModalHeader } from 'reactstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import viLocale from '@fullcalendar/core/locales/vi';
 
@@ -23,11 +23,17 @@ function SVuCalendar(props) {
   const [responseData, setResponseData] = useState({});
   const [selectedDate, setSelectedDate] = useState({});
   const [modalIsOpen, setModalIsOpen] = useState(false);
+  const [timePicked, setTimePicked] = useState("00:00");
+  const [selectedAllDay, setSelectedAllDay] = useState(false);
 
   const toggle = () => setModalIsOpen(!modalIsOpen);
 
   const location = useLocation();
-  console.log("Current URL: ", location.pathname);
+  // console.log("Current URL: ", location.pathname);
+
+  const changeTimeInputValue = (e) => {
+    setTimePicked(e.target.value);
+  }
 
   useEffect(() => {
     const fetchSuVuEvents = async () => {
@@ -45,7 +51,7 @@ function SVuCalendar(props) {
 
         setEvents(dataEvents);
 
-        console.log("Fetch events successfully: ", response);
+        // console.log("Fetch events successfully: ", response);
 
       } catch (error) {
         console.log("Failed to fetch get events: ", error);
@@ -61,7 +67,7 @@ function SVuCalendar(props) {
 
       const response = await SpTicketsApi.put(responseData.id, data);
 
-      console.log("Fetch update events successfully: ", response);
+      // console.log("Fetch update events successfully: ", response);
       
     } catch (error) {
       console.log("Failed to fetch update events: ", error);
@@ -72,11 +78,24 @@ function SVuCalendar(props) {
     const title = "Ngày hẹn gặp";
 
     if(title != null) {
+
+      const hourValuePicked = timePicked.substring(0, 2);
+      const minuteValuePicked = timePicked.substring(3);
+
+      const dateInp = new Date(selectedDate.date);
+      if(selectedAllDay) {
+        dateInp.setHours(hourValuePicked);
+        dateInp.setMinutes(minuteValuePicked);
+      }
+
       const eventHenGap = {
         id: 1,
         title: title,
-        date: makeDateTimeSelectedAsUTCStr(selectedDate.date)
+        // date: makeDateTimeSelectedAsUTCStr(selectedDate.date)
+        date: makeDateTimeSelectedAsUTCStr(dateInp)
       };
+
+      // console.log("TVY: ", eventHenGap.date);
 
       let data = [...events];
       data[0] = eventHenGap;
@@ -98,11 +117,23 @@ function SVuCalendar(props) {
     const title = "Ngày gọi lại khiếu nại";
 
     if(title != null) {
+
+      const hourValuePicked = timePicked.substring(0, 2);
+      const minuteValuePicked = timePicked.substring(3);
+
+      const dateInp = new Date(selectedDate.date);
+      if(selectedAllDay) {
+        dateInp.setHours(hourValuePicked);
+        dateInp.setMinutes(minuteValuePicked);
+      }
+
       const eventGoiLai = {
         id: 2,
         title: title,
-        date: makeDateTimeSelectedAsUTCStr(selectedDate.date)
+        date: makeDateTimeSelectedAsUTCStr(dateInp)
       };
+
+      // console.log("Select all day: ", selectedDate.allDay);
 
       let data = [...events];
       data[1] = eventGoiLai;
@@ -124,10 +155,20 @@ function SVuCalendar(props) {
     const title = "Ngày hẹn gọi lại";
 
     if(title != null) {
+
+      const hourValuePicked = timePicked.substring(0, 2);
+      const minuteValuePicked = timePicked.substring(3);
+
+      const dateInp = new Date(selectedDate.date);
+      if(selectedAllDay) {
+        dateInp.setHours(hourValuePicked);
+        dateInp.setMinutes(minuteValuePicked);
+      }
+
       const eventHenGoiLai = {
         id: 3,
         title: title,
-        date: makeDateTimeSelectedAsUTCStr(selectedDate.date)
+        date: makeDateTimeSelectedAsUTCStr(dateInp)
       };
 
       let data = [...events];
@@ -150,10 +191,20 @@ function SVuCalendar(props) {
     const title = "Ngày giao hàng";
 
     if(title != null) {
+
+      const hourValuePicked = timePicked.substring(0, 2);
+      const minuteValuePicked = timePicked.substring(3);
+
+      const dateInp = new Date(selectedDate.date);
+      if(selectedAllDay) {
+        dateInp.setHours(hourValuePicked);
+        dateInp.setMinutes(minuteValuePicked);
+      }
+
       const eventGiaohang = {
         id: 4,
         title: title,
-        date: makeDateTimeSelectedAsUTCStr(selectedDate.date)
+        date: makeDateTimeSelectedAsUTCStr(dateInp)
       };
 
       let data = [...events];
@@ -186,6 +237,7 @@ function SVuCalendar(props) {
 
     if(!(Object.keys(responseData).length === 0)) {
       setSelectedDate(e);
+      setSelectedAllDay(e.allDay);
       // console.log("zz: ", addHours(e.date.getTimezoneOffset()/(-60), e.date).toISOString().substring(0, 23));
       // console.log("zz2", makeDateTimeSelectedAsUTCStr(e.date));
 
@@ -331,6 +383,14 @@ function SVuCalendar(props) {
           </ModalHeader>
           <ModalBody>
               Chọn event mà bạn muốn thêm
+              {selectedAllDay ?
+              <Input 
+                type="time"
+                name="time"
+                onChange={e => changeTimeInputValue(e)}
+                value={timePicked}
+              />
+              : ""}
           </ModalBody>
           <ModalFooter>
               <Button
