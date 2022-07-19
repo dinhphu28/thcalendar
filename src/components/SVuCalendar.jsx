@@ -9,14 +9,12 @@ import resourceTimeGridPlugin from "@fullcalendar/resource-timegrid";
 import { useLocation } from "react-router-dom";
 import { useEffect } from "react";
 import SpTicketsApi from '../apis/SpTicketsApi';
-import { Button, Input, Modal, ModalBody, ModalFooter, ModalHeader } from 'reactstrap';
+import { Button, Input, Modal, ModalBody, ModalFooter, ModalHeader, Tooltip } from 'reactstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import viLocale from '@fullcalendar/core/locales/vi';
 
 function SVuCalendar(props) {
   const [events, setEvents] = useState([
-    // {id: 1, title: "Ngày hẹn gặp", date: "2022-06-13"},
-    // {id: 2, title: "Event 02", date: "2022-06-14"}
     {},{},{},{}
   ]);
 
@@ -25,6 +23,8 @@ function SVuCalendar(props) {
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [timePicked, setTimePicked] = useState("00:00");
   const [selectedAllDay, setSelectedAllDay] = useState(false);
+  const [hoveredEvent, setHoveredEvent] = useState();
+  const [tooltipShow, setTooltipShow] = useState(false);
 
   const toggle = () => setModalIsOpen(!modalIsOpen);
 
@@ -43,13 +43,15 @@ function SVuCalendar(props) {
         setResponseData(response);
 
         const dataEvents = [
-          {id: 1, title: "Ngày hẹn gặp", date: response.ngayHenGap},
-          {id: 2, title: "Ngày gọi lại khiếu nại", date: response.ngayGoiLaiKhieuNai},
-          {id: 3, title: "Ngày hẹn gọi lại", date: response.ngayHenGoiLai},
-          {id: 4, title: "Ngày giao hàng", date: response.ngayGiaohang},
+          {id: 1, title: "NHG", date: response.ngayHenGap},
+          {id: 2, title: "NGLKN", date: response.ngayGoiLaiKhieuNai},
+          {id: 3, title: "NHGL", date: response.ngayHenGoiLai},
+          {id: 4, title: "NGH", date: response.ngayGiaohang},
         ];
 
         setEvents(dataEvents);
+
+        // console.log("IUIUIU: ", dataEvents);
 
         // console.log("Fetch events successfully: ", response);
 
@@ -75,7 +77,7 @@ function SVuCalendar(props) {
   }
 
   const handleClickHenGap = () => {
-    const title = "Ngày hẹn gặp";
+    const title = "NHG";
 
     if(title != null) {
 
@@ -87,6 +89,8 @@ function SVuCalendar(props) {
         dateInp.setHours(hourValuePicked);
         dateInp.setMinutes(minuteValuePicked);
       }
+
+      console.log("VVV: ", selectedDate);
 
       const eventHenGap = {
         id: 1,
@@ -114,7 +118,7 @@ function SVuCalendar(props) {
   }
 
   const handleClickGoiLaiKhieuNai = () => {
-    const title = "Ngày gọi lại khiếu nại";
+    const title = "NGLKN";
 
     if(title != null) {
 
@@ -152,7 +156,7 @@ function SVuCalendar(props) {
   }
 
   const handleClickHenGoiLai = () => {
-    const title = "Ngày hẹn gọi lại";
+    const title = "NHGL";
 
     if(title != null) {
 
@@ -188,7 +192,7 @@ function SVuCalendar(props) {
   }
 
   const handleClickGiaohang = () => {
-    const title = "Ngày giao hàng";
+    const title = "NGH";
 
     if(title != null) {
 
@@ -210,7 +214,9 @@ function SVuCalendar(props) {
       let data = [...events];
       data[3] = eventGiaohang;
 
-      setEvents(data);
+      // setEvents(data);
+
+      console.log("BBB: ", events);
 
       const eData = {
         ngayHenGap: data[0].date,
@@ -220,6 +226,8 @@ function SVuCalendar(props) {
       };
 
       fetchUpdateSuVuEvents(eData);
+
+      setEvents(data);
     }
   }
 
@@ -250,7 +258,7 @@ function SVuCalendar(props) {
   const handleEventClick = (e) => {
     // alert("Event clicked: " + e.event.id);
     if(e.event.id === "1") {
-      const title = "Ngày hẹn gặp";
+      const title = "NHG";
 
       const eventHenGap = {
         id: 1,
@@ -262,6 +270,7 @@ function SVuCalendar(props) {
       data[0] = eventHenGap;
       
       setEvents(data);
+      setHoveredEvent(null);
 
       const eData = {
         ngayHenGap: data[0].date,
@@ -272,7 +281,7 @@ function SVuCalendar(props) {
 
       fetchUpdateSuVuEvents(eData);
     } else if(e.event.id === "2") {
-      const title = "Ngày gọi lại khiếu nại";
+      const title = "NGLKN";
 
       const eventGoiLai = {
         id: 2,
@@ -284,6 +293,7 @@ function SVuCalendar(props) {
       data[1] = eventGoiLai;
 
       setEvents(data);
+      setHoveredEvent(null);
 
       const eData = {
         ngayHenGap: data[0].date,
@@ -294,7 +304,7 @@ function SVuCalendar(props) {
 
       fetchUpdateSuVuEvents(eData);
     } else if(e.event.id === "3") {
-      const title = "Ngày hẹn gọi lại";
+      const title = "NHGL";
 
       const eventHenGoiLai = {
         id: 3,
@@ -306,6 +316,7 @@ function SVuCalendar(props) {
       data[2] = eventHenGoiLai;
 
       setEvents(data);
+      setHoveredEvent(null);
 
       const eData = {
         ngayHenGap: data[0].date,
@@ -316,7 +327,7 @@ function SVuCalendar(props) {
 
       fetchUpdateSuVuEvents(eData);
     } else if(e.event.id === "4") {
-      const title = "Ngày giao hàng";
+      const title = "NGH";
 
       const eventGiaohang = {
         id: 4,
@@ -328,6 +339,7 @@ function SVuCalendar(props) {
       data[3] = eventGiaohang;
 
       setEvents(data);
+      setHoveredEvent(null);
 
       const eData = {
         ngayHenGap: data[0].date,
@@ -338,6 +350,62 @@ function SVuCalendar(props) {
 
       fetchUpdateSuVuEvents(eData);
     }
+  }
+
+  const handleEventMouseHover = (e) => {
+    // console.log("TVY", hoveredEvent);
+    setHoveredEvent(e);
+    setTooltipShow(!tooltipShow)
+    // e.el.innerHTML += "<i>Cat yeah</i>"
+    // console.log("VVV: ", e);
+  }
+
+  const handleToggleTooltip = () => setTooltipShow(!tooltipShow);
+
+  const renderEventTooltip = () => {
+    console.log("ToolTip rendering: ", events);
+
+    return hoveredEvent ?
+    <>
+      {events[0].date !== null && hoveredEvent.event.id == events[0].id ? <Tooltip
+        flip
+        target="meow-event-1"
+        isOpen={tooltipShow}
+        toggle={handleToggleTooltip}
+      >
+        {hoveredEvent.event.title === "NHG" ? "Ngày giao hàng" : ""}
+      </Tooltip> : "" }
+
+      {events[1].date !== null && hoveredEvent.event.id == events[1].id ? <Tooltip
+        flip
+        target="meow-event-2"
+        isOpen={tooltipShow}
+        toggle={handleToggleTooltip}
+      >
+        {hoveredEvent.event.title === "NGLKN" ? "Ngày gọi lại khiếu nại" : ""}
+      </Tooltip> : "" }
+
+      {events[2].date !== null && hoveredEvent.event.id == events[2].id ? <Tooltip
+        flip
+        target="meow-event-3"
+        isOpen={tooltipShow}
+        toggle={handleToggleTooltip}
+      >
+        {hoveredEvent.event.title === "NHGL" ? "Ngày hẹn gọi lại" : ""}
+      </Tooltip> : "" }
+
+      {events[3].date !== null && hoveredEvent.event.id == events[3].id ? <Tooltip
+        flip
+        target="meow-event-4"
+        isOpen={tooltipShow}
+        toggle={handleToggleTooltip}
+      >
+        {hoveredEvent.event.title === "NGH" ? "Ngày giao hàng" : ""}
+      </Tooltip> : "" }
+    </>
+      : <>""</>
+
+    
   }
 
   return (
@@ -361,6 +429,25 @@ function SVuCalendar(props) {
           resourceTimeGridPlugin
         ]}
         eventClick={handleEventClick}
+        eventMouseEnter={e => handleEventMouseHover(e)}
+        eventContent={(e) => {
+          return (
+            <>
+            {/* <span
+              id={"meow-event-" + e.event.id}
+              > */}
+              {/* <a class="fc-daygrid-event fc-daygrid-dot-event fc-event fc-event-start fc-event-end fc-event-future">
+                <div class="fc-daygrid-event-dot"></div><div class="fc-event-time">13:38</div>
+                <div class="fc-event-title">NGH</div>
+              </a> */}
+              <div class="fc-daygrid-event-dot"></div>
+              <div className="fc-event-time">{e.timeText}</div><div id={"meow-event-" + e.event.id} className="fc-event-title">{e.event.title}</div>
+              
+            {/* </span> */}
+            </>
+          )
+        }}
+        // eventDidMount
         events={events}
         // select={handleSelectedDates}
         // eventLimit={3}
@@ -440,6 +527,8 @@ function SVuCalendar(props) {
               </Button> */}
           </ModalFooter>
       </Modal>
+
+      {renderEventTooltip()}
     </div>
   );
 }
