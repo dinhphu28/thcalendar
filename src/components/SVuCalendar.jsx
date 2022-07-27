@@ -373,7 +373,7 @@ function SVuCalendar(props) {
         isOpen={tooltipShow}
         toggle={handleToggleTooltip}
       >
-        {hoveredEvent.event.title === "NHG" ? "Ngày giao hàng" : ""}
+        {hoveredEvent.event.title === "NHG" ? "Ngày hẹn gặp" : ""}
       </Tooltip> : "" }
 
       {events[1].date !== null && hoveredEvent.event.id == events[1].id ? <Tooltip
@@ -403,7 +403,7 @@ function SVuCalendar(props) {
         {hoveredEvent.event.title === "NGH" ? "Ngày giao hàng" : ""}
       </Tooltip> : "" }
     </>
-      : <>""</>
+      : <></>
 
     
   }
